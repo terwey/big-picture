@@ -1,0 +1,16 @@
+{
+    "name": "dsduit/big-picture-html5up",
+    "description": "This is the „Big Picture” theme from HTML5UP.",
+    "type": "bolt-theme",
+    "keywords": ["theme", "html5UP", "skell"],
+    "require": {
+        "bolt/bolt": ">=2.0.0,<3.0.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Derk Duit",
+            "email": "derk@twokings.nl"
+        }
+    ]
+}

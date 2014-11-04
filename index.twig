@@ -74,12 +74,12 @@
 					<p>{{ paragraph.body }}</p>
 				</header>
 				<div class="container small gallery">
-				{% for record in paragraph.gallery %}
+				{% for gallery in paragraph.gallery %}
 				{% if loop.index is odd %}
 				<div class="row flush images">
-					<div class="6u"><a href="{{ record.image|image }}" class="image fit from-left"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
+					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-left"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" alt="" /></a></div>
 				{% else %}
-					<div class="6u"><a href="{{ record.image|image }}" class="image fit from-right"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
+					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-right"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" alt="" /></a></div>
 				</div>
 				{% endif %}
 				{% endfor %}

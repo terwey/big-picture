@@ -1,0 +1,43 @@
+paragraphs:
+    name: Paragraphs
+    singular_name: Paragraph
+    description: |
+      This contenttype has been created especially for the **big-picture** theme. It can of
+      course be used for anything else. Use the Weight field to organise the page.
+    fields:
+        title:
+            type: text
+            class: large
+            group: content
+            prefix: "<p>The maximum length is 80 characters, this due to layouting specifications.</p>"
+            pattern: "^.{1,80}$"
+        slug:
+            type: slug
+            uses: title
+        weight:
+            prefix: "<p>You can use the Weight field to specify in which order the Paragraphs are placed.</p>"
+            type: integer
+        body:
+            type: html
+            group: content
+            prefix: "<p>The maximum length is 480 characters, this due to layouting specifications.</p>"
+            pattern: "^.{1,480}$"
+        background:
+            type: image
+        gallery:
+            type: imagelist
+        style:
+            type: select
+            values: [ style1, style2, style3 ]
+        innerstyle:
+            type: select
+            values: [ box, container, container small]
+        dark:
+            type: select
+            values: [ yes, no ]
+        position:
+            type: select
+            values: [ left, right ]
+    sort: order
+    default_status: published
+    show_on_dashboard: true

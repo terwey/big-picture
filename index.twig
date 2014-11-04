@@ -6,13 +6,17 @@
 -->
 <html>
 	<head>
-		<title>Big Picture by HTML5 UP</title>
+		<title>
+			{% if record.title is defined %}{{ record.title|striptags }} | {% endif %}
+			{{ app.config.get('general/sitename') }}
+			{% if record.title is not defined and app.config.get('general/payoff') %} | {{ app.config.get('general/payoff') }}{% endif %}
+		</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
-        <script>
-            var themepath = '{{ paths.theme }}';
-        </script>
+		<script>
+			var themepath = '{{ paths.theme }}';
+		</script>
 		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
 		<script src="{{ paths.theme }}js/jquery.min.js"></script>
 		<script src="{{ paths.theme }}js/jquery.poptrox.min.js"></script>
@@ -34,107 +38,82 @@
 			<header id="header">
 
 				<!-- Logo -->
-					<h1 id="logo">Big Picture</h1>
+					<h1 id="logo">{{ app.config.get('general/sitename') }}</h1>
 				
+		{% setcontent paragraphs = 'paragraphs' orderby 'weight' %}
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
-							<li><a href="#intro">Intro</a></li>
-							<li><a href="#one">What I Do</a></li>
-							<li><a href="#two">Who I Am</a></li>
-							<li><a href="#work">My Work</a></li>
+			{% for paragraph in paragraphs %}
+				{% if loop.first %}
+					{% set anchor = "intro" %}
+				{% else %}
+					{% set anchor = paragraph.slug %}
+				{% endif %}
+				<li><a href="#{{ anchor }}">{{ paragraph.title }}</a></li>
+			{% endfor %}
 							<li><a href="#contact">Contact</a></li>
 						</ul>
 					</nav>
 
 			</header>
-			
-		<!-- Intro -->
-			<section id="intro" class="main style1 dark fullscreen">
-				<div class="content container small">
-					<header>
-						<h2>Hey.</h2>
-					</header>
-					<p>Welcome to <strong>Big Picture</strong> a responsive site template designed
-					by <a href="http://html5up.net">HTML5 UP</a>, built on <strong>skel</strong>,
-					and released for free under the <a href="http://html5up.net/license">Creative Commons Attribution 3.0 license</a>.</p>
-					<p><em>Adapted for Bolt.</em></p>
-					<footer>
-						<a href="#one" class="button style2 down">More</a>
-					</footer>
-				</div>
-			</section>
-		
-		<!-- One -->
-		
-		{% setcontent page = 'page' where { id: '1' } %}
-		
-			<section id="one" class="main style2 right dark fullscreen">
-				<div class="content box style2">
-					<header>
-						<h2>{{ page.title }}</h2>
-					</header>
-					<p>{{ page.excerpt(100) }}</p>
-				</div>
-				<a href="#two" class="button style2 down anchored">Next</a>
-			</section>
-		
-		<!-- Two -->
-		
-		{% setcontent page = 'page' where { id: '2' } %}
-		
-			<section id="two" class="main style2 left dark fullscreen">
-				<div class="content box style2">
-					<header>
-						<h2>{{ page.title }}</h2>
-					</header>
-					<p>{{ page.excerpt(100) }}</p>
-				</div>
-				<a href="#work" class="button style2 down anchored">Next</a>
-			</section>
-			
-		<!-- Work -->
-		
-		{% setcontent page = 'page' where { id: '3' } %}
-		
+
+		{% for paragraph in paragraphs %}
+			{#{{ dump(paragraph) }}#}
+			{% if loop.first %}
+				{% set anchor = "intro" %}
+			{% else %}
+				{% set anchor = paragraph.slug %}
+			{% endif %}
+			{% if paragraph.gallery|e %}
 			<section id="work" class="main style3 primary">
 				<div class="content container">
-					<header>
-						<h2>{{ page.title }}</h2>
-						<p>{{ page.excerpt(100) }}</p>
-					</header>
-					
-					<!-- Lightbox Gallery  -->
-						<div class="container small gallery">
-    						
-    						
-    				{% setcontent records = "entries/random/6" %}
-                    {% for record in records %}
-    						
-    						{% if loop.index is odd %}
-    						
-							<div class="row flush images">
-								<div class="6u"><a href="{{ record.image|image }}" class="image fit from-left"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
-                            {% else %}
-								<div class="6u"><a href="{{ record.image|image }}" class="image fit from-right"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
-							</div>
-                            
-                            {% endif %}		
-							
-                    {% endfor %}
-						
-						</div>
-
+			<!-- Lightbox Gallery  -->
+				<header>
+					<h2>{{ paragraph.title }}</h2>
+					<p>{{ paragraph.body }}</p>
+				</header>
+				<div class="container small gallery">
+				{% for record in paragraph.gallery %}
+				{% if loop.index is odd %}
+				<div class="row flush images">
+					<div class="6u"><a href="{{ record.image|image }}" class="image fit from-left"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
+				{% else %}
+					<div class="6u"><a href="{{ record.image|image }}" class="image fit from-right"><img src="{{ thumbnail(record.image, 460, 360) }}" title="{{ record.title }}" alt="" /></a></div>
 				</div>
+				{% endif %}
+				{% endfor %}
+			{% else %}
+			<section id="{{ anchor }}" class="main {{ paragraph.style }} {{ paragraph.position }} {% if paragraph.dark == "yes" %}dark{% endif %} fullscreen background-image"
+			style="background: url('{{ paths.theme }}css/images/overlay.png'), url('files/{{ paragraph.background }}'); background-size: 256px 256px, cover;">
+				<div class="content {{ paragraph.innerstyle }} {{ paragraph.style }}">
+				<header>
+				<h2>{{ paragraph.title }}</h2>
+				</header>
+				<p>{{ paragraph.body }}</p>
+			{% endif %}
+			{% if paragraph.gallery|e %}
+				</div>
+			{% else %}
+				<footer>
+					{% if loop.last %}
+						<a href="#contact" class="button {{ paragraph.style }} down">More</a>
+					{% else %}
+						<a href="#{{ paragraph.next('weight').slug }}" class="button {{ paragraph.style }} down">More</a>
+					{% endif %}
+				</footer>
+				</div>
+			{% endif %}
 			</section>
+		{% endfor %}
 			
 		<!-- Contact -->
 		
-        <!--
+		<!--
 						
-        Use the Simpleforms extension to create your own form and settings.
+		Use the Simpleforms extension to create your own form and settings.
 						
-        -->
+		-->
 		
 		
 			<section id="contact" class="main style3 secondary">

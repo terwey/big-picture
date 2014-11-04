@@ -77,9 +77,9 @@
 				{% for gallery in paragraph.gallery %}
 				{% if loop.index is odd %}
 				<div class="row flush images">
-					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-left"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" alt="" /></a></div>
+					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-left"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" title="{{ gallery.title }}" alt="" /></a></div>
 				{% else %}
-					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-right"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" alt="" /></a></div>
+					<div class="6u"><a href="{{ gallery.filename|image }}" class="image fit from-right"><img src="{{ thumbnail(gallery.filename, 460, 360) }}" title="{{ gallery.title }}" alt="" /></a></div>
 				</div>
 				{% endif %}
 				{% endfor %}
@@ -120,7 +120,6 @@
 				<div class="content container">
 					<header>
 						<h2>Say Hello.</h2>
-						<p>Lorem ipsum dolor sit amet et sapien sed elementum egestas dolore condimentum.</p>
 					</header>
 					<div class="box container small">
 					
@@ -151,17 +150,35 @@
 
 				<!-- Icons -->
 					<ul class="actions">
-						<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
-						<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
-						<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						{% if app.config.get('general/social/github') != "" %}
+						<li><a href="{{ app.config.get('general/social/github') }}" class="icon fa-github"><span class="label">GitHub</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/linkedin') != "" %}
+						<li><a href="{{ app.config.get('general/social/linkedin') }}" class="icon fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/twitter') != "" %}
+						<li><a href="{{ app.config.get('general/social/twitter') }}" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/facebook') != "" %}
+						<li><a href="{{ app.config.get('general/social/facebook') }}" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/googleplus') != "" %}
+						<li><a href="{{ app.config.get('general/social/googleplus') }}" class="icon fa-google-plus"><span class="label">Google+</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/dribbble') != "" %}
+						<li><a href="{{ app.config.get('general/social/dribbble') }}" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/pinterest') != "" %}
+						<li><a href="{{ app.config.get('general/social/pinterest') }}" class="icon fa-pinterest"><span class="label">Pinterest</span></a></li>
+						{% endif %}
+						{% if app.config.get('general/social/instagram') != "" %}
+						<li><a href="{{ app.config.get('general/social/instagram') }}" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+						{% endif %}
 					</ul>
 
 				<!-- Menu -->
 					<ul class="menu">
-						<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+						<li>&copy; {{ app.config.get('general/sitename') }}</li>
 					</ul>
 			
 			</footer>

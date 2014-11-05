@@ -9,35 +9,72 @@ paragraphs:
             type: text
             class: large
             group: content
-            prefix: "<p>The maximum length is 80 characters, this due to layouting specifications.</p>"
-            pattern: "^.{1,80}$"
         slug:
             type: slug
             uses: title
         weight:
-            prefix: "<p>You can use the Weight field to specify in which order the Paragraphs are placed.</p>"
+            postfix: "<p>You can use the Weight field to specify in which order the Paragraphs are placed.</p>"
             type: integer
         body:
             type: html
             group: content
-            prefix: "<p>The maximum length is 480 characters, this due to layouting specifications.</p>"
-            pattern: "^.{1,480}$"
+            postfix: There is no maximum length however try to keep it short. Around 480 characters looks very nice.
         background:
             type: image
         gallery:
             type: imagelist
+            postfix: Using the Gallery will automatically enable the Gallery view.
         style:
             type: select
-            values: [ style1, style2, style3 ]
+            values: [ style1, style2 left, style2 right, style3 primary, style3 secondary ]
+            postfix: |
+              The section can then be assigned a style class to determine its basic
+              look (and, in some cases, its behavior):
+
+                **style1**
+                Centered content with an oversized **Title**. Works best when paired with a background image or color.
+
+                **style2 left**
+                Content in a box, anchored to the left side of the window. Works
+                best when paired with a background image or color. If you have
+                "useSectionTransitions" turned on in your settings, the box will
+                slide into view from the left.
+
+                **style2 right**
+                Content in a box, anchored to the right side of the window. Works
+                best when paired with a background image or color. If you have
+                "useSectionTransitions" turned on in your settings, the box will
+                slide into view from the right.
+
+                **style3 primary**
+                Used for generic content. Set against the primary background
+                color (default is white).
+
+                **style3 secondary**
+                Used for generic content. Set against the secondary background
+                color (default is a light gray).
         innerstyle:
             type: select
             values: [ box, container, container small]
+        menu:
+            type: checkbox
+            default: 1
+            postfix: |
+              If the content is in the Menu or not
+        main:
+            type: checkbox
+            default: 1
+            postfix: |
+              Defines if the content is Main content or not. This let's it transition or be static.
         dark:
-            type: select
-            values: [ yes, no ]
-        position:
-            type: select
-            values: [ left, right ]
+            type: checkbox
+            postfix: |
+              Flips the content's color scheme so it shows up better
+              against darker background images and colors.
+        fullscreen:
+            type: checkbox
+            default: 1
+            postfix: |
+              Makes the section fill the entire window (only if "useFullScreen" is enabled in your settings).
     sort: order
-    default_status: published
     show_on_dashboard: true

@@ -4,9 +4,14 @@ Big picture by HTML5 UP
 This is the „Big picture” theme from HTML5UP (http://html5up.net) and is adapted for Bolt.
 
 To install manually, go to theme/ and do a checkout:
-git clone https://github.com/bolt/helios.git
+git clone https://github.com/Dsduit/big-picture.git
 
-Set theme: big-picture in your app/config/config.yml, and you're good to go!
+Set theme: big-picture in your ```app/config/config.yml```
+Copy over the contents from ```contenttypes.yml``` into your ```app/config/contenttypes.yml```
+to use the special ContentType designed for this Template.
+
+Also you can copy over the constants for the Template's Social info from ```config.yml``` in
+this repository.
 
 -------------
 

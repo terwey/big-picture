@@ -44,7 +44,7 @@
 				<!-- Nav -->
 					<nav id="nav">
 						<ul>
-			{% for paragraph in paragraphs %}
+			{% for paragraph in paragraphs if paragraph.menu %}
 				{% if loop.first %}
 					{% set anchor = "intro" %}
 				{% else %}
@@ -65,9 +65,12 @@
 			{% else %}
 				{% set anchor = paragraph.slug %}
 			{% endif %}
+			<section id="{{ anchor }}" class="{% if paragraph.gallery|e %}gallerycontainer{% endif %} {% if paragraph.main %}main{% endif %} {{ paragraph.style }} {% if paragraph.dark %}dark{% endif %} {% if paragraph.fullscreen %}fullscreen{% endif %}
+			{% if paragraph.style not in [ 'style3 primary', 'style3 secondary' ] %} background-image"
+			style="background: url('{{ paths.theme }}css/images/overlay.png'), url('files/{{ paragraph.background }}'); background-size: 256px 256px, cover;">
+			{% else %}">{% endif %}
+				<div class="content {{ paragraph.innerstyle }}">
 			{% if paragraph.gallery|e %}
-			<section id="work" class="main style3 primary">
-				<div class="content container">
 			<!-- Lightbox Gallery  -->
 				<header>
 					<h2>{{ paragraph.title }}</h2>
@@ -84,9 +87,6 @@
 				{% endif %}
 				{% endfor %}
 			{% else %}
-			<section id="{{ anchor }}" class="main {{ paragraph.style }} {{ paragraph.position }} {% if paragraph.dark == "yes" %}dark{% endif %} fullscreen background-image"
-			style="background: url('{{ paths.theme }}css/images/overlay.png'), url('files/{{ paragraph.background }}'); background-size: 256px 256px, cover;">
-				<div class="content {{ paragraph.innerstyle }} {{ paragraph.style }}">
 				<header>
 				<h2>{{ paragraph.title }}</h2>
 				</header>
@@ -94,7 +94,7 @@
 			{% endif %}
 			{% if paragraph.gallery|e %}
 				</div>
-			{% else %}
+			{% endif %}
 				<footer>
 					{% if loop.last %}
 						<a href="#contact" class="button {{ paragraph.style }} down">More</a>
@@ -102,6 +102,7 @@
 						<a href="#{{ paragraph.next('weight').slug }}" class="button {{ paragraph.style }} down">More</a>
 					{% endif %}
 				</footer>
+			{% if not paragraph.gallery|e %}
 				</div>
 			{% endif %}
 			</section>
